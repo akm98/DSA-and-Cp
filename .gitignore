@@ -1,0 +1,8 @@
+.cph
+/.cph
+
+*.exe
+*.bin
+.vscode
+/.vscode
+/build
