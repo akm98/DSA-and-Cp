@@ -3,12 +3,12 @@ using namespace std;
 
 class Graph{
 private:
-   int vertices;
+   int vertices ;
    vector<vector<int>> adj;
 public:
     Graph(int V){
-        vertices = V;
-        adj.resize(V);
+      vertices = V+1;    
+      adj.resize(V+1);   
     }
     void addEdge(int x,int y){
         adj[x].push_back(y);
@@ -28,7 +28,7 @@ public:
     return false;
     }
     bool dfs(int source,int desination){
-        vector<int> vis(100);
+        vector<int> vis(vertices+1);
         vis[source] = true;
         return dfsUtil(source,desination,vis);
 
@@ -85,8 +85,8 @@ public:
             cout<<"Neighbours of Vertex "<<i<<"->";
             vector<int> :: iterator it;
 
-            for(it = adj[i].begin(); it != adj[i].end(); it++){
-                cout<<*it<<", ";
+            for(it = adj[i].begin(); it != adj[i].end(); it++){                
+                    cout<<*it<<", ";
             }
 
             cout<<endl;
@@ -94,18 +94,21 @@ public:
     }  
 };
 int main(){    
-    Graph g(6);
-    g.addEdge(0,1);
-    g.addEdge(0,2);
+    Graph g = Graph(5);
+    
     g.addEdge(1,4);
     g.addEdge(1,2);
-    g.addEdge(1,3);
     g.addEdge(2,3);
-    g.addEdge(2,4);
-    g.addEdge(3,4);
+    g.addEdge(2,5);
     g.addEdge(3,5);
-    g.addEdge(4,5); 
+    g.addEdge(3,4);
+    
+    
+   
     g.showGraph();  
+    g.bfs(1,2);
+    g.bfs(1,3);
+    g.bfs(1,4);
     g.bfs(1,5);
     string ans = g.dfs(2,5)?"Possible":"Not Possible";
     cout<<"Path is "<<ans;
