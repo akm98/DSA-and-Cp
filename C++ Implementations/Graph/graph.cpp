@@ -14,9 +14,25 @@ public:
         adj[x].push_back(y);
         adj[y].push_back(x);
     }
-    // bool dfs(){
+    bool dfsUtil(int cur,int desination, vector<int> &vis){
+        if(cur == desination) return true;
 
-    // }
+        vector<int>:: iterator it;        
+        for(it = adj[cur].begin(); it!=adj[cur].end();it++){
+            if(!vis[*it]){
+                vis[*it] = true;
+                bool isConnected = dfsUtil(*it,desination,vis);
+                if(isConnected) return true;
+            }            
+        }
+    return false;
+    }
+    bool dfs(int source,int desination){
+        vector<int> vis(100);
+        vis[source] = true;
+        return dfsUtil(source,desination,vis);
+
+    }
     void bfs(int source, int destination){
         queue<int> q;
 
@@ -51,8 +67,8 @@ public:
                 break;
             }
 
-            vector<int> :: iterator it;            
-            for(it = adj[cur].begin(); it != adj[cur].end(); it++){
+                        
+            for(auto it = adj[cur].begin(); it != adj[cur].end(); it++){
                 if(!vis[*it]){
                     q.push(*it);
                     parent[*it] = cur;
@@ -88,8 +104,12 @@ int main(){
     g.addEdge(2,4);
     g.addEdge(3,4);
     g.addEdge(3,5);
-    g.addEdge(4,5);   
+    g.addEdge(4,5); 
+    g.showGraph();  
     g.bfs(1,5);
+    string ans = g.dfs(2,5)?"Possible":"Not Possible";
+    cout<<"Path is "<<ans;
+
 
     return 0;
 }
