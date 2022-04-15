@@ -4,11 +4,11 @@ using namespace std;
 class Graph{
 private:
    int vertices ;
-   vector<vector<int>> adj;
+   vector<int> adj[100];
 public:
     Graph(int V){
-      vertices = V+1;    
-      adj.resize(V+1);   
+      vertices = V+1;   
+      
     }
     void addEdge(int x,int y){
         adj[x].push_back(y);
