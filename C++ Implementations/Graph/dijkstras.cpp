@@ -19,6 +19,8 @@ public:
     void shortestPath(int source, int destination){
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
         vector<int> distance(100,INT_MAX);
+        vector<int> parent(10);
+        parent[source] = -1;
         distance[source] = 0;
         vector<bool> vis(100);
         pq.push({0,source});
@@ -33,14 +35,22 @@ public:
                 int vertex = it.first;
                 int wt = it.second;
                 if(distance[v] + wt < distance[vertex]){
-                     distance[vertex] = distance[v] + wt;
-                     pq.push({distance[vertex],vertex});
+                    parent[vertex] = v;                     
+                    distance[vertex] = distance[v] + wt;
+                    pq.push({distance[vertex],vertex});
                 }
             }
         }
         
-            cout<<"Distance from "<<source<<" to "<<destination<<" is: "<<distance[destination];
-        
+        cout<<"Distance from "<<source<<" to "<<destination<<" is: "<<distance[destination];
+        int n = destination;
+        string path = ""+to_string(destination);
+        while(parent[n]!=-1){
+            path += " >- "+ to_string(parent[n]);
+            n = parent[n];
+        }
+        reverse(path.begin(),path.end());
+        cout<<"\nThe shortest path is: "+path;
 
 
     }
