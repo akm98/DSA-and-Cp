@@ -48,7 +48,31 @@ public:
 
     }
 
+    bool checkCycleUsingDfs(){
+                        
+        for(int i=0;i<vertices;i++){
+            int cur = i,parent = -1;   
+            if(!vis[i]){
+                vis[i] =1;
+                if(dfs(cur,parent)) 
+                    return true;
+            }
+        }   
+        return false;
+    }
 
+        bool dfs(int cur,int parent){
+            for(auto it: adj[cur]){
+                    if(!vis[it]){
+                      vis[it] = 1;
+                      return dfs(it,cur);
+                    }
+                    else if(it!=parent){
+                        return true;
+                    }
+                }
+        return false;   
+    }
 
 
 
@@ -64,14 +88,14 @@ int main(){
     g.addEdge(1,2);
     g.addEdge(2,4);
     g.addEdge(3,5);
-    g.addEdge(5,10);
+    g.addEdge(4,1);
     g.addEdge(5,6);
     g.addEdge(6,7);
     g.addEdge(7,8);
     g.addEdge(8,9);
     g.addEdge(8,11);
     g.addEdge(9,10);
-    string hasCycle = g.checkCycleUsingBfs()? "contains " : "does not contains ";
+    string hasCycle = g.checkCycleUsingDfs()? "contains " : "does not contains ";
     cout<<"The graph "<<hasCycle<<"a cycle";
     return 0;
 }
