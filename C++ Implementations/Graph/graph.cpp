@@ -4,10 +4,11 @@ using namespace std;
 class Graph{
 private:
    int vertices ;
-   vector<int> adj[100];
+   map<int,vector<int>> adj;
+   vector<int> adj1[100];
 public:
     Graph(int V){
-      vertices = V+1;   
+      vertices = V;   
       
     }
     void addEdge(int x,int y){
@@ -17,8 +18,8 @@ public:
     bool dfsUtil(int cur,int desination, vector<int> &vis){
         if(cur == desination) return true;
 
-        vector<int>:: iterator it;        
-        for(it = adj[cur].begin(); it!=adj[cur].end();it++){
+        //vector<int>:: iterator it;        
+        for(auto it = adj[cur].begin(); it!=adj[cur].end();it++){
             if(!vis[*it]){
                 vis[*it] = true;
                 bool isConnected = dfsUtil(*it,desination,vis);
@@ -68,11 +69,11 @@ public:
             }
 
                         
-            for(auto it = adj[cur].begin(); it != adj[cur].end(); it++){
-                if(!vis[*it]){
-                    q.push(*it);
-                    parent[*it] = cur;
-                    vis[*it] = true;                   
+            for(auto it: adj[cur]){
+                if(!vis[it]){
+                    q.push(it);
+                    parent[it] = cur;
+                    vis[it] = true;                   
                 }
             }
             
@@ -81,12 +82,13 @@ public:
 
 
     void showGraph(){
-        for(int i=0;i<vertices;i++){
-            cout<<"Neighbours of Vertex "<<i<<"->";
-            vector<int> :: iterator it;
+        for(auto i:adj){
+           
+            cout<<"Neighbours of Vertex "<<i.first<<"->";
+            
 
-            for(it = adj[i].begin(); it != adj[i].end(); it++){                
-                    cout<<*it<<", ";
+            for(auto it: adj[i.first]){                
+                    cout<<it<<", ";
             }
 
             cout<<endl;
@@ -110,7 +112,7 @@ int main(){
     g.bfs(1,3);
     g.bfs(1,4);
     g.bfs(1,5);
-    string ans = g.dfs(2,5)?"Possible":"Not Possible";
+    string ans = g.dfs(2,6)?"Possible":"Not Possible";
     cout<<"Path is "<<ans;
 
 
